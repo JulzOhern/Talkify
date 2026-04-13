@@ -1,19 +1,18 @@
 "use client";
 
 import React, { ElementRef, useEffect, useRef, useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
-import InputButton from "./gptIcons/inputButton";
-import { useChat } from "ai/react";
+import { useChat } from "@ai-sdk/react";
 import { usePathname } from "next/navigation";
 import { createNewChat } from "@/actions/newChat";
 import { createChats } from "@/actions/createChat";
-import StopChatIcon from "./gptIcons/stopChatIcon";
+
 import NewChatsRow from "./newChatsRow";
 import MessagesRow from "./messagesRow";
 import HomeForm from "./homeForm";
 import { useOpenSideBar } from "@/utils/zustand";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { ChatInputForm } from "./chatInputForm";
 
 type ChatRowProp = {
   user: {
@@ -48,21 +47,19 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
   const setOpensidebar = useOpenSideBar((state) => state.setOpenSidebar);
   const isOpenSidebar = useOpenSideBar((state) => state.isOpen);
   const setCloseSidebar = useOpenSideBar((state) => state.setCloseSidebar);
-  const [scrollToBottom, setScrollToBottom] = useState(0);
+  const [isInBottom, setIsInBottom] = useState(false);
+  const scrollToBottomRef = useRef(0);
   const {
     messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-    stop,
-    append,
+    status,
+    sendMessage,
   } = useChat();
   const pathname = usePathname();
 
+  // Create or update chat logic
   useEffect(() => {
     (async () => {
-      if (pathname === "/" && isLoading === false && messages.length !== 0) {
+      if (pathname === "/" && status === "ready" && messages.length !== 0) {
         await createNewChat(messages).catch(() =>
           toast.error("Something went wrong")
         );
@@ -70,7 +67,7 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
 
       if (
         pathname === `/c/${chatId}` &&
-        isLoading === false &&
+        status === "ready" &&
         messages.length !== 0
       ) {
         await createChats(messages, chatId).catch(() =>
@@ -78,35 +75,34 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
         );
       }
     })();
-  }, [pathname, isLoading, messages, chatId]);
+  }, [pathname, status, messages, chatId]);
 
+  // Scroll to bottom logic
   useEffect(() => {
     function handleScroll() {
       if (scrollRef.current) {
-        const isBottom =
-          scrollRef.current.scrollHeight -
-          (scrollRef.current.clientHeight + scrollRef.current.scrollTop);
+        const scrollHeight = scrollRef.current.scrollHeight;
+        const clientHeight = scrollRef.current.clientHeight;
+        const scrollTop = scrollRef.current.scrollTop;
+        const isBottom = scrollHeight - (clientHeight + scrollTop);
 
-        setScrollToBottom(isBottom);
+        scrollToBottomRef.current = isBottom;
+        setIsInBottom(isBottom > 0);
       }
     }
 
     const scrollReference = scrollRef.current;
-
     scrollReference?.addEventListener("scroll", handleScroll);
-
-    return () => {
-      scrollReference?.removeEventListener("scroll", handleScroll);
-    };
+    return () => scrollReference?.removeEventListener("scroll", handleScroll);
   }, [messages]);
 
   useEffect(() => {
-    if (scrollToBottom <= 10) {
+    if (scrollToBottomRef.current <= 0) {
       scrollRef.current?.scrollTo({
         top: scrollRef.current.scrollHeight,
       });
     }
-  }, [messages, scrollToBottom]);
+  }, [messages]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
@@ -164,10 +160,10 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
       )}
 
       {pathname === "/" && messages.length === 0 ? (
-        <HomeForm append={append} />
+        <HomeForm sendMessage={sendMessage} />
       ) : (
-        <div ref={scrollRef} className="relative flex-1 overflow-auto">
-          <div className="absolute inset-0 mx-auto max-w-[48rem] pt-16">
+        <div ref={scrollRef} className="relative flex-1 overflow-auto md:mt-[55px] mt-[45px]">
+          <div className="absolute inset-0 mx-auto max-w-[48rem] pt-5">
             <div className="flex flex-col gap-12 pb-14 px-5 md:px-10">
               {pathname === `/c/${chatId}` &&
                 newChat?.chats.length !== 0 &&
@@ -183,64 +179,12 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        onKeyDown={(e) => {
-          if (e.keyCode === 13 && e.shiftKey) {
-            return;
-          }
-
-          if (e.keyCode === 13) {
-            e.preventDefault();
-            handleSubmit(e);
-          }
-        }}
-        className="relative flex flex-col justify-center items-center gap-2 mb-2 px-4"
-      >
-        {scrollToBottom > 0 && (
-          <button
-            onClick={() =>
-              scrollRef.current?.scrollTo({
-                top: scrollRef.current?.scrollHeight,
-              })
-            }
-            className="absolute top-[-3rem] rounded-full bg-[#212121] border border-zinc-700 z-[10]"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="m-1 text-token-text-primary"
-            >
-              <path
-                d="M17 13L12 18L7 13M12 6L12 17"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
-          </button>
-        )}
-        <div className="relative flex items-center w-full gap-2 max-w-[48rem] mx-auto">
-          <TextareaAutosize
-            placeholder="Message ChatGPT..."
-            rows={1}
-            value={input}
-            onChange={handleInputChange}
-            className="flex-1 rounded-2xl bg-transparent border border-[#424242] px-4 py-[14px] outline-none resize-none pr-14"
-          />
-          {isLoading ? (
-            <StopChatIcon stop={stop} />
-          ) : (
-            <InputButton input={input} />
-          )}
-        </div>
-        <p className="text-xs text-zinc-300 text-center">
-          ChatGPT can make mistakes. Consider checking important information.
-        </p>
-      </form>
+      <ChatInputForm
+        scrollRef={scrollRef}
+        sendMessage={sendMessage}
+        isInBottom={isInBottom}
+        status={status}
+      />
     </div>
   );
 };

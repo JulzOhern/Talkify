@@ -1,27 +1,26 @@
 import React from "react";
-import GptHomeIcon from "./gptIcons/gptHomeIcon";
 import Image from "next/image";
 
-export default function HomeForm({ append }: any) {
-  const chatSuggestion = [
-    {
-      title: "Show me a code snippet",
-      message: "of a website's sticky header",
-    },
-    {
-      title: "Come up with concepts",
-      message: "for a retro-style arcade game",
-    },
-    {
-      title: "Plan a tour",
-      message: "for achitectural photography in Barcelona",
-    },
-    {
-      title: "Create a workout plan",
-      message: "for resistance training",
-    },
-  ];
+const CHAT_SUGGESTION = [
+  {
+    title: "Show me a code snippet",
+    message: "of a website's sticky header",
+  },
+  {
+    title: "Come up with concepts",
+    message: "for a retro-style arcade game",
+  },
+  {
+    title: "Plan a tour",
+    message: "for achitectural photography in Barcelona",
+  },
+  {
+    title: "Create a workout plan",
+    message: "for resistance training",
+  },
+];
 
+export default function HomeForm({ sendMessage }: any) {
   return (
     <div className="flex flex-col relative flex-1 overflow-auto">
       <div className="flex flex-col gap-4 justify-center items-center flex-1 mx-auto max-w-[48rem] w-full">
@@ -38,13 +37,10 @@ export default function HomeForm({ append }: any) {
 
       <div className="flex gap-2 mx-auto max-w-[50rem] w-full text-sm mb-4">
         <div className="flex flex-col gap-2 flex-1 ml-6 sm:mr-0 mr-6">
-          {chatSuggestion.slice(0, 2).map((item, index) => (
+          {CHAT_SUGGESTION.slice(0, 2).map((item, index) => (
             <div
               onClick={() =>
-                append({
-                  role: "user",
-                  content: `${item.title} ${item.message}`,
-                })
+                sendMessage({ text: `${item.title} ${item.message}` })
               }
               key={index}
               className="relative flex items-center border hover:bg-[#2f2f2f] group/show cursor-pointer border-zinc-700 py-3 px-4 rounded-xl"
@@ -77,13 +73,10 @@ export default function HomeForm({ append }: any) {
         </div>
 
         <div className="hidden sm:flex flex-col gap-2 flex-1 mr-6">
-          {chatSuggestion.slice(2, 4).map((item, index) => (
+          {CHAT_SUGGESTION.slice(2, 4).map((item, index) => (
             <div
               onClick={() =>
-                append({
-                  role: "user",
-                  content: `${item.title} ${item.message}`,
-                })
+                sendMessage({ text: `${item.title} ${item.message}` })
               }
               key={index}
               className="relative flex items-center border hover:bg-[#2f2f2f] group/show cursor-pointer border-zinc-700 py-3 px-4 rounded-xl"
