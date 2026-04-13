@@ -5,17 +5,11 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import ReactMarkdown from "react-markdown";
 import ClipboardIcon from "./gptIcons/clipboardIcon";
 import remarkGfm from "remark-gfm";
+import { User } from "@prisma/client";
 
 type MessagesRowProp = {
   m: any;
-  user: {
-    id: string;
-    externalUserId: string;
-    username: string;
-    profile: string;
-    createdAt: Date;
-    updatedAt: Date;
-  } | null;
+  user: User | null;
 };
 
 const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {

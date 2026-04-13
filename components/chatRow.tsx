@@ -156,6 +156,10 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
                 {messages.map((m) => (
                   <MessagesRow key={m.id} m={m} user={user} />
                 ))}
+
+                {status === "submitted" && (
+                  <div className="w-3 h-3 rounded-full bg-zinc-400 animate-pulse shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
+                )}
               </div>
             </div>
           </div>
