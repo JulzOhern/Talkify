@@ -72,6 +72,7 @@ export function ChatInputForm({ scrollRef, sendMessage, isInBottom, status }: Ch
         <TextareaAutosize
           placeholder="Message ChatTPG..."
           rows={1}
+          maxRows={15}
           value={input}
           onChange={e => setInput(e.target.value)}
           className="flex-1 rounded-2xl bg-transparent border border-[#424242] px-4 py-[14px] outline-none resize-none pr-14"

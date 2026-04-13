@@ -5,7 +5,6 @@ import { useChat } from "@ai-sdk/react";
 import { usePathname } from "next/navigation";
 import { createNewChat } from "@/actions/newChat";
 import { createChats } from "@/actions/createChat";
-
 import NewChatsRow from "./newChatsRow";
 import MessagesRow from "./messagesRow";
 import HomeForm from "./homeForm";
@@ -13,33 +12,12 @@ import { useOpenSideBar } from "@/utils/zustand";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { ChatInputForm } from "./chatInputForm";
+import { Chats, NewChat, User } from "@prisma/client";
 
 type ChatRowProp = {
-  user: {
-    id: string;
-    externalUserId: string;
-    username: string;
-    profile: string;
-    createdAt: Date;
-    updatedAt: Date;
-  } | null;
+  user: User | null;
   chatId?: string;
-  newChat?: {
-    id: string;
-    title: string;
-    userId: string;
-    chats: {
-      id: string;
-      userId: string;
-      newChatId: string;
-      role: string;
-      content: string;
-      createdAt: Date;
-      updatedAt: Date;
-    }[];
-    createdAt: Date;
-    updatedAt: Date;
-  } | null;
+  newChat?: (NewChat & { chats: Chats[] }) | null;
 };
 
 const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
@@ -111,7 +89,7 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
   return (
     <div
       className={cn(
-        "mainSection flex flex-col min-h-[100dvh] duration-200",
+        "mainSection flex flex-col duration-200 flex-1 min-h-0",
         isOpenSidebar ? "md:ml-0 ml-[16rem]" : "md:ml-[16rem] ml-0"
       )}
     >
@@ -159,25 +137,30 @@ const ChatRow = ({ user, chatId, newChat }: ChatRowProp) => {
         </div>
       )}
 
-      {pathname === "/" && messages.length === 0 ? (
-        <HomeForm sendMessage={sendMessage} />
-      ) : (
-        <div ref={scrollRef} className="relative flex-1 overflow-auto md:mt-[55px] mt-[45px]">
-          <div className="absolute inset-0 mx-auto max-w-[48rem] pt-5">
-            <div className="flex flex-col gap-12 pb-14 px-5 md:px-10">
-              {pathname === `/c/${chatId}` &&
-                newChat?.chats.length !== 0 &&
-                newChat?.chats.map((m) => (
-                  <NewChatsRow key={m.id} m={m} user={user} />
-                ))}
+      <div className="flex flex-col flex-1 min-h-0">
+        {pathname === "/" && messages.length === 0 ? (
+          <HomeForm sendMessage={sendMessage} />
+        ) : (
+          <div
+            ref={scrollRef}
+            className="relative flex-1 overflow-y-auto min-h-0"
+          >
+            <div className="mx-auto max-w-[48rem] pt-5">
+              <div className="flex flex-col gap-12 px-5 md:px-10 pb-10">
+                {pathname === `/c/${chatId}` &&
+                  newChat?.chats.length !== 0 &&
+                  newChat?.chats.map((m) => (
+                    <NewChatsRow key={m.id} m={m} user={user} />
+                  ))}
 
-              {messages.map((m) => (
-                <MessagesRow key={m.id} m={m} user={user} />
-              ))}
+                {messages.map((m) => (
+                  <MessagesRow key={m.id} m={m} user={user} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <ChatInputForm
         scrollRef={scrollRef}

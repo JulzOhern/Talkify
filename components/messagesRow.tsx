@@ -34,7 +34,7 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
   };
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full">
       {m.role === "user" ? (
         <div className="flex justify-end">
           <div className="flex gap-3 max-w-[85%]">
@@ -56,7 +56,7 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
           </div>
         </div>
       ) : (
-        <div className="flex gap-3 w-full overflow-hidden">
+        <div className="flex gap-3 w-full">
           <div className="shrink-0 mt-1">
             <Image
               src="/logo.png"
@@ -67,9 +67,9 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
               className="w-7 h-7 rounded-full"
             />
           </div>
-          <div className="flex flex-col flex-1 min-w-0 gap-1 overflow-hidden">
+          <div className="flex flex-col flex-1 min-w-0 gap-1">
             <p className="font-semibold text-sm text-white">ChatTPG</p>
-            <div className="text-[#ececec] leading-7 text-sm overflow-hidden">
+            <div className="text-[#ececec] leading-7 text-sm">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -131,8 +131,8 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
 
                     if (!inline && match) {
                       return (
-                        <div className="my-3 rounded-xl overflow-hidden border border-zinc-700 max-w-full">
-                          <div className="flex items-center justify-between bg-zinc-800 px-4 py-2">
+                        <div className="my-3 rounded-xl border border-zinc-700 max-w-full">
+                          <div className="sticky top-0 flex items-center justify-between bg-[#1a1a1a] border-b border-zinc-700 px-4 py-2 rounded-t-xl">
                             <span className="text-xs text-zinc-400 font-mono">{match[1]}</span>
                             <button
                               onClick={() => handleCopy(codeString, blockId)}
@@ -153,22 +153,24 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
                               )}
                             </button>
                           </div>
-                          <SyntaxHighlighter
-                            style={atomDark}
-                            language={match[1]}
-                            PreTag="div"
-                            customStyle={{
-                              margin: 0,
-                              borderRadius: 0,
-                              fontSize: "0.8rem",
-                              lineHeight: "1.6",
-                              background: "#1a1a1a",
-                              overflowX: "auto",
-                            }}
-                            {...props}
-                          >
-                            {codeString}
-                          </SyntaxHighlighter>
+                          <div className="overflow-hidden rounded-b-xl">
+                            <SyntaxHighlighter
+                              style={atomDark}
+                              language={match[1]}
+                              PreTag="div"
+                              customStyle={{
+                                margin: 0,
+                                borderRadius: 0,
+                                fontSize: "0.8rem",
+                                lineHeight: "1.6",
+                                background: "#1a1a1a",
+                                overflowX: "auto",
+                              }}
+                              {...props}
+                            >
+                              {codeString}
+                            </SyntaxHighlighter>
+                          </div>
                         </div>
                       );
                     }

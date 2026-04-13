@@ -9,11 +9,11 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="flex flex-col h-[100dvh]">
       <Navbar />
       <Sidebar />
       <Toaster position="top-center" />
-      <div>{children}</div>
+      <div className="flex flex-col flex-1 min-h-0">{children}</div>
     </div>
   );
 }
