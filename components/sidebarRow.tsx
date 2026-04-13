@@ -8,6 +8,7 @@ import NewChatPencilIcon from "./gptIcons/newChatPencilIcon";
 import UserNewChatsRow from "./userNewChatsRow";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useOpenSideBar } from "@/utils/zustand";
+import Image from "next/image";
 
 type SidebarRowProp = {
   user: {
@@ -19,14 +20,14 @@ type SidebarRowProp = {
     updatedAt: Date;
   } | null;
   userNewChat:
-    | {
-        id: string;
-        title: string;
-        userId: string;
-        createdAt: Date;
-        updatedAt: Date;
-      }[]
-    | null;
+  | {
+    id: string;
+    title: string;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[]
+  | null;
 };
 
 export default function SidebarRow({ user, userNewChat }: SidebarRowProp) {
@@ -44,12 +45,21 @@ export default function SidebarRow({ user, userNewChat }: SidebarRowProp) {
           href="/"
           className="sticky top-0 z-[50] flex items-center justify-between p-1 hover:bg-[#212121] bg-[#171717] rounded-lg py-[6px] px-2"
         >
-          <h1 className="flex items-center gap-2">
-            <SidebarGPTlogo />
-            <span className="font-medium text-sm whitespace-nowrap">
-              New chat
-            </span>
-          </h1>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={800}
+              height={950}
+              className="rounded-full w-8"
+            />
+
+            <h1 className="flex items-center gap-2">
+              <span className="font-medium text-sm whitespace-nowrap">
+                New chat
+              </span>
+            </h1>
+          </div>
 
           <button>
             <NewChatPencilIcon />

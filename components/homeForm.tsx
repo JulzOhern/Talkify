@@ -1,5 +1,6 @@
 import React from "react";
 import GptHomeIcon from "./gptIcons/gptHomeIcon";
+import Image from "next/image";
 
 export default function HomeForm({ append }: any) {
   const chatSuggestion = [
@@ -23,8 +24,15 @@ export default function HomeForm({ append }: any) {
 
   return (
     <div className="flex flex-col relative flex-1 overflow-auto">
-      <div className="flex flex-col justify-center items-center flex-1 mx-auto max-w-[48rem] w-full">
-        <GptHomeIcon />
+      <div className="flex flex-col gap-4 justify-center items-center flex-1 mx-auto max-w-[48rem] w-full">
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={800}
+          height={950}
+          objectFit="cover"
+          className="rounded-full w-24"
+        />
         <h1 className="text-xl font-bold">How can I help you today?</h1>
       </div>
 
