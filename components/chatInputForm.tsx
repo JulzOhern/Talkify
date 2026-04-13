@@ -68,21 +68,25 @@ export function ChatInputForm({ scrollRef, sendMessage, isInBottom, status }: Ch
         </button>
       )}
 
-      <div className="relative flex items-center w-full gap-2 max-w-[48rem] mx-auto">
+      <div className="relative flex items-center w-full gap-2 max-w-[48rem] mx-auto border border-[#424242] px-3 py-[10px] rounded-2xl">
         <TextareaAutosize
           placeholder="Message ChatTPG..."
           rows={1}
           maxRows={15}
           value={input}
           onChange={e => setInput(e.target.value)}
-          className="flex-1 rounded-2xl bg-transparent border border-[#424242] px-4 py-[14px] outline-none resize-none pr-14"
+          className="flex-1 bg-transparent outline-none resize-none"
         />
-        {status === "streaming" || status === "submitted" ? (
-          <StopChatIcon stop={stop} />
-        ) : (
-          <InputButton input={input} />
-        )}
+
+        <div className='flex items-center self-end'>
+          {status === "streaming" || status === "submitted" ? (
+            <StopChatIcon stop={stop} />
+          ) : (
+            <InputButton input={input} />
+          )}
+        </div>
       </div>
+
       <p className="text-xs text-zinc-300 text-center">
         ChatTPG can make mistakes. Consider checking important information.
       </p>

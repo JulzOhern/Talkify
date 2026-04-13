@@ -8,7 +8,7 @@ const InputButton = ({ input }: InputButtonProp) => {
   return (
     <button
       disabled={!input}
-      className="absolute bottom-[.7rem] right-3 rounded-lg border p-0.5 text-black bg-white transition-colors disabled:bg-[#424242] disabled:border-[#424242] disabled:text-zinc-800 md:bottom-3 md:right-3"
+      className="rounded-lg border p-0.5 text-black bg-white transition-colors disabled:bg-[#424242] disabled:border-[#424242] disabled:text-zinc-800 md:bottom-3 md:right-3"
       data-testid="send-button"
     >
       <span className="" data-state="closed">
