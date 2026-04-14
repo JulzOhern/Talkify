@@ -9,6 +9,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
   return {
     title: newChat?.title,
+    openGraph: {
+      title: newChat?.title,
+    },
+    twitter: {
+      title: newChat?.title,
+    },
   };
 }
 

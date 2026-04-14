@@ -134,8 +134,8 @@ const NewChatsRow = memo(function NewChatsRow({ m, user }: NewChatsRowProp) {
 
                     if (!inline && match) {
                       return (
-                        <div className="my-3 rounded-xl border border-zinc-700 max-w-full">
-                          <div className="sticky top-0 flex items-center justify-between bg-[#1a1a1a] border-b border-zinc-700 px-4 py-2 rounded-t-xl">
+                        <div className="my-3 rounded-xl border border-zinc-700 max-w-full overflow-clip">
+                          <div className="sticky top-0 flex items-center justify-between bg-[#1a1a1a] border-b border-zinc-700 px-4 py-2">
                             <span className="text-xs text-zinc-400 font-mono">{match[1]}</span>
                             <button
                               onClick={() => handleCopy(codeString, blockId)}
@@ -156,24 +156,22 @@ const NewChatsRow = memo(function NewChatsRow({ m, user }: NewChatsRowProp) {
                               )}
                             </button>
                           </div>
-                          <div className="overflow-hidden rounded-b-xl">
-                            <SyntaxHighlighter
-                              style={atomDark}
-                              language={match[1]}
-                              PreTag="div"
-                              customStyle={{
-                                margin: 0,
-                                borderRadius: 0,
-                                fontSize: "0.8rem",
-                                lineHeight: "1.6",
-                                background: "#1a1a1a",
-                                overflowX: "auto",
-                              }}
-                              {...props}
-                            >
-                              {codeString}
-                            </SyntaxHighlighter>
-                          </div>
+                          <SyntaxHighlighter
+                            style={atomDark}
+                            language={match[1]}
+                            PreTag="div"
+                            customStyle={{
+                              margin: 0,
+                              borderRadius: 0,
+                              fontSize: "0.8rem",
+                              lineHeight: "1.6",
+                              background: "#1a1a1a",
+                              overflowX: "auto",
+                            }}
+                            {...props}
+                          >
+                            {codeString}
+                          </SyntaxHighlighter>
                         </div>
                       );
                     }

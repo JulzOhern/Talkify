@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "navbar sticky inset-x-0 flex items-center justify-between h-11 md:h-14 bg-[#212121] px-4 z-[100] border-b border-zinc-700 duration-200",
+        "navbar sticky inset-x-0 flex items-center justify-between h-11 md:h-14 bg-[#212121] px-4 z-[100] md:border-none border-b border-zinc-700 duration-200",
         isOpenSidebar ? "md:ml-0 ml-[16rem]" : "md:ml-[16rem] ml-0"
       )}
     >
