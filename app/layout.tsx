@@ -60,7 +60,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#2563eb",        // main brand color
+          colorBackground: "#1a1a1a",          // background
+          colorInputBackground: "#2f2f2f",     // input fields
+          colorInputText: "#ffffff",           // input text
+          colorText: "#ffffff",                // general text
+          colorTextSecondary: "#a1a1aa",       // secondary text
+          colorNeutral: "#ffffff",             // neutral elements
+          borderRadius: "0.75rem",             // border radius
+        },
+        elements: {
+          // target specific elements
+          card: "bg-[#1a1a1a] border border-zinc-700",
+          formButtonPrimary: "bg-blue-600 hover:bg-blue-700",
+          footerActionLink: "text-blue-400 hover:text-blue-300",
+        }
+      }}
+    >
       <html lang="en">
         <body className="bg-[#212121] text-white">{children}</body>
       </html>

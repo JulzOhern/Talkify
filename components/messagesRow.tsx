@@ -62,7 +62,7 @@ const MessagesRow = memo(function MessagesRow({ m, user }: MessagesRowProp) {
             />
           </div>
           <div className="flex flex-col flex-1 min-w-0 gap-1">
-            <p className="font-semibold text-sm text-white">ChatTPG</p>
+            <p className="font-semibold text-sm text-white">Talkify</p>
             <div className="text-[#ececec] leading-7 text-sm">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}

@@ -71,7 +71,7 @@ export default function Navbar() {
         )}
 
         <h1 className="font-medium text-lg">
-          ChatTPG <span className="text-zinc-400">3.5</span>
+          Talkify <span className="text-zinc-400">3.5</span>
         </h1>
       </div>
 

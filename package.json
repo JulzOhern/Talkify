@@ -14,7 +14,6 @@
     "@ai-sdk/react": "^3.0.160",
     "@clerk/nextjs": "^5.3.3",
     "@clerk/themes": "^1.7.9",
-    "@google/genai": "^1.49.0",
     "@prisma/client": "^5.13.0",
     "@radix-ui/react-hover-card": "^1.0.7",
     "@radix-ui/react-popover": "^1.0.7",

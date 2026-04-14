@@ -70,7 +70,7 @@ export function ChatInputForm({ scrollRef, sendMessage, isInBottom, status }: Ch
 
       <div className="relative flex items-center w-full gap-2 max-w-[48rem] mx-auto border border-[#424242] px-3 py-[10px] rounded-2xl">
         <TextareaAutosize
-          placeholder="Message ChatTPG..."
+          placeholder="Message Talkify..."
           rows={1}
           maxRows={15}
           value={input}
@@ -88,7 +88,7 @@ export function ChatInputForm({ scrollRef, sendMessage, isInBottom, status }: Ch
       </div>
 
       <p className="text-xs text-zinc-300 text-center">
-        ChatTPG can make mistakes. Consider checking important information.
+        Talkify can make mistakes. Consider checking important information.
       </p>
     </form>
   )
